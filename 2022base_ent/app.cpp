@@ -717,6 +717,7 @@ void update_task(intptr_t unused) {
     ER ercd;
 
     colorSensor->sense();
+    //ここにログ出力処理を入れる
     plotter->plot();
 
 /*

@@ -25,3 +25,15 @@
 a.out
 *30_CS.sh
 .$*.drawio.*
+
+# etrobo related files
+app
+asp
+*.asp
+currentapp
+*.status
+__race/
+*.log
+log.txt
+*.md5sum
+result.json

@@ -38,6 +38,7 @@ BrainTree::BehaviorTree* tr_run         = nullptr;
 BrainTree::BehaviorTree* tr_slalom      = nullptr;
 BrainTree::BehaviorTree* tr_block       = nullptr;
 State state = ST_INITIAL;
+int32_t logCounter = 0;
 
 /*
     === NODE CLASS DEFINITION STARTS HERE ===
@@ -655,7 +656,7 @@ void main_task(intptr_t unused) {
             .end()
             .leaf<TraceLine>(SPEED_NORM, GS_TARGET, P_CONST, I_CONST, D_CONST, 0.0, TS_NORMAL)
         .end()
-        .build();
+    .build();
 
     tr_slalom = (BrainTree::BehaviorTree*) BrainTree::Builder()
         .composite<BrainTree::ParallelSequence>(1,2)
@@ -684,7 +685,7 @@ void main_task(intptr_t unused) {
                 .end()
                 .composite<BrainTree::ParallelSequence>(1,2)
                     .leaf<IsTimeEarned>(3000000)
-                    .leaf<RunAsInstructed>(10, 25, 0.0)
+                    .leaf<RunAsInstructed>(10, 25, 0.0)                    
                 .end()
                 .composite<BrainTree::ParallelSequence>(1,2)
                     .leaf<IsTimeEarned>(3000000)
@@ -695,7 +696,7 @@ void main_task(intptr_t unused) {
                 .end()
             .end()
         .end()
-        .build();
+    .build();
 
     tr_block = (BrainTree::BehaviorTree*) BrainTree::Builder()
         .composite<BrainTree::MemSequence>()
@@ -707,7 +708,7 @@ void main_task(intptr_t unused) {
             .end()
             .leaf<StopNow>()
         .end()
-        .build();
+    .build();
 
 #endif /* if defined(MAKE_RIGHT) */
 
@@ -766,6 +767,12 @@ void update_task(intptr_t unused) {
     ER ercd;
 
     colorSensor->sense();
+    //ここにログ出力処理を入れる 1/100秒ごとに出力
+    logCounter++;
+    if (logCounter % 10000 = 0) {
+        _log("color: r=%d g=%d b=%d, distance: %05d", cur_rgb.r, cur_rgb.g, cur_rgb.b, plotter->getDistance());
+    }
+    //ログ出力終了
     plotter->plot();
 
 /*
